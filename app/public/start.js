@@ -7,7 +7,7 @@ $("#storySubmit").on("click", function(event) {
     console.log(story);
     
     $.post("/api/new", story)
-    .then(alert("Story segment extended!")
+    .then(alert("New story started!")
     )
     $("#newStoryInput").val("")
 })
