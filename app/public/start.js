@@ -7,7 +7,8 @@ $("#storySubmit").on("click", function(event) {
     console.log(story);
     
     $.post("/api/new", story)
-    .then(console.log("story posted!"))
+    .then(alert("Story segment extended!")
+    )
     $("#newStoryInput").val("")
 })
 
@@ -31,7 +32,7 @@ $("#newFinished").on("click", function(event) {
         var arr = data[0].mainText.split("[.]")
         $.each(arr, function (index, value) {
             var d = $("<div>").text(value)
-            $("#continueStory").append(d)
+            $("#continueStory").append(d).append("<br>")
         })
         $("#continueStory").attr("dbID",data[0].id)
         $("#numberStory").text((data[0].storyCount + 1) + " out of 10").attr("storyCount",data[0].storyCount)
@@ -59,6 +60,8 @@ $("#storyUpdate").on("click", function(event) {
         type: 'PUT',
         success: function(res) {
             console.log("story extended!")
+            alert("Story segment extended!")
+            $("#newStoryInput").val("")
         }
     });
 })
