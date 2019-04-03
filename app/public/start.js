@@ -14,8 +14,6 @@ $("#storySubmit").on("click", function(event) {
 
 $("#newUnfinished").on("click", function(event) {
     event.preventDefault();
-    console.log($("#countHolder").text().trim())
-    
     $.get("/api/unfinished/", function(data) {
         console.log(data)
         $("#continueStory").text(data[0].recentText).attr("dbID",data[0].id)
@@ -25,7 +23,6 @@ $("#newUnfinished").on("click", function(event) {
 
 $("#newFinished").on("click", function(event) {
     event.preventDefault();
-    console.log($("#countHolder").text().trim())
     
     $.get("/api/finished/", function(data) {
         console.log(data)
@@ -62,6 +59,36 @@ $("#storyUpdate").on("click", function(event) {
             console.log("story extended!")
             alert("Story segment extended!")
             $("#newStoryInput").val("")
+            newGeneratorU()
         }
     });
 })
+
+function newGeneratorF () {
+$.get("/api/finished/", function(data) {
+    console.log(data)
+    var arr = data[0].mainText.split("[.]")
+    $.each(arr, function (index, value) {
+        var d = $("<div>").text(value)
+        $("#continueStory").append(d).append("<br>")
+    })
+    $("#continueStory").attr("dbID",data[0].id)
+    $("#numberStory").text((data[0].storyCount + 1) + " out of 10").attr("storyCount",data[0].storyCount)
+})
+}
+
+function newGeneratorU () {
+    $.get("/api/unfinished/", function(data) {
+        console.log(data)
+        $("#continueStory").text(data[0].recentText).attr("dbID",data[0].id)
+        $("#numberStory").text((data[0].storyCount + 1) + " out of 10").attr("storyCount",data[0].storyCount)
+    })
+}
+
+
+if ($("#newUnfinished").text() = "New Story") {
+    newGeneratorU ()
+}
+else {
+    newGeneratorF ()
+}
