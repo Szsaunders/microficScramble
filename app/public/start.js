@@ -85,8 +85,8 @@ function newGeneratorU () {
     })
 }
 
-
-if ($("#newUnfinished").text() = "New Story") {
+var q = $("#newUnfinished").text()
+if (q == "New Story") {
     newGeneratorU ()
 }
 else {
