@@ -33,6 +33,11 @@ module.exports = function(app) {
     // console.log(dbQuery)
     connection.query(dbQuery, function(err, result) {
       if (err) throw err;
+      var dbQuery2 = "UPDATE stories SET active = true WHERE id = ?"
+      connection.query(dbQuery2, [result.id], function(err, result) {
+        if (err) throw err;
+        res.end();
+      })
       res.json(result);
     });
   });
@@ -52,11 +57,12 @@ module.exports = function(app) {
     });
   });
 
+  //Should actually be a post, apparently. change later
   app.put("/api/update", function(req, res) {
     console.log("New Story:");
     console.log(req.body);
 
-    var dbQuery = "UPDATE stories SET mainText = CONCAT(mainText,' [.] ',?), recentText = ?, storyCount = ? WHERE id = ?";
+    var dbQuery = "UPDATE stories SET mainText = CONCAT(mainText,' [.] ',?), recentText = ?, storyCount = ?, active = false WHERE id = ?";
 
     connection.query(dbQuery, [req.body.recentText, req.body.recentText, req.body.storyCount, req.body.id], function(err, result) {
       if (err) throw err;

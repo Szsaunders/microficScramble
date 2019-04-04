@@ -8,6 +8,7 @@ CREATE TABLE stories (
   mainText VARCHAR(2860) NOT NULL,
   recentText VARCHAR(280) NOT NULL,
   mature boolean,
+  active boolean,
   storyCount INTEGER NOT NULL,
   completionTime DATETIME,
   PRIMARY KEY (id)
