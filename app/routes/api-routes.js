@@ -27,21 +27,22 @@ module.exports = function(app) {
     });
   });
 
-
   app.get("/api/unfinished/", function(req, res) {
     var dbQuery = "SELECT * FROM stories WHERE storyCount<9 ORDER BY RAND() LIMIT 1";
     // console.log(dbQuery)
     connection.query(dbQuery, function(err, result) {
       if (err) throw err;
-      var dbQuery2 = "UPDATE stories SET active = true WHERE id = ?"
-      connection.query(dbQuery2, [result.id], function(err, result) {
-        if (err) throw err;
-        res.end();
-      })
       res.json(result);
     });
   });
 
+  app.post("/api/switch", function(req, res) {
+    var dbQuery = "UPDATE stories SET active = IF(active == false, true, false) WHERE id = ?";
+    connection.query(dbQuery, [req.body.id], function(err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+  });
 
   // Add a story
   app.post("/api/new", function(req, res) {
@@ -57,7 +58,6 @@ module.exports = function(app) {
     });
   });
 
-  //Should actually be a post, apparently. change later
   app.put("/api/update", function(req, res) {
     console.log("New Story:");
     console.log(req.body);
